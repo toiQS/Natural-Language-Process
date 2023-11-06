@@ -1,13 +1,15 @@
-//băm dữ liệu từ file keyword
-//băm dữ liệu đầu vào
-//đối chiếu kiểm tra dữ liệu
-//phân loại xử lý dữ liệu
+//băm dữ liệu đầu vào thành từng câu
+//băm dữ liệu lần 2 thành từ có nghĩa
+//băm dữ liệu từ file làm cơ sở
+//text1.txt là file chứa các từ mang tính chất mong muốn, ham muốn của con người
+//text2.txt là file chứa các từ mang tính chất hành động có ý nghĩa tiêu cực
+//text3.txt là file chứa dữ liệu là các đối tượng bị nhắm đến
 class Method{
     constructor(text){
         this.text = text;
         this.score = 10; //thang điểm đánh giá
         this.arr1 = new Array(); //chứa dữ liệu được băm từ file keyword
-        this.arr2 = new Map(); 
+        this.arr2 = new Array(); 
         this.arr3 = new Array(); 
     }
     //đọc file và băm vào bảng dữ liệu
@@ -30,40 +32,43 @@ class Method{
         }
     }
     
-    //băm dữ liệu đầu vào
-    HashInputData() {
-        var vntk = require("vntk");
-        var tokenizer = vntk.wordTokenizer();
+    //băm từng đoạn dữ liệu đầu vào
+    HashInputData(){
+        
         if(this.text != null){
-            this.arr2 = tokenizer.tag(this.text.toUpperCase());
+            const miniText = this.text.split(/[.?]/);
+            miniText.forEach(element => {
+                this.arr2.push(element.trim().toUpperCase());
+            })
             return this.arr2;
         }
+        return "false";
     }
-    //đổi chiếu kiểm tra dữ liệu    
-    CheckWord() {
-        const i=0,j = 0;
-        if(this.arr2.has("muốn"),toUpperCase()){
-            do{
-                if(this.arr2[i] == this.arr1[j]){
-                    this.arr3.push(this.arr2[i]);
-                }
-                j++;
-            }
-            while(i < this.arr2.length);
+    //băm từng câu thành từng từ có nghĩa
+    HashInputData2(){
+        var vntk = require ("vntk");
+        var tokenize = vntk.wordTokenizer();
+        try{
+            this.arr2.forEach(element => {
+                const listWord = new Array();
+                var word = tokenize(tag.element);
+                word.forEach(element => {
+                    word.push(element);
+                });
+                this.arr3.push(listWord);
+            });
             return this.arr3;
         }
-    }
-    //trả kết quả từ việc đối chiếu
-    Result(){
-        if(this.arr3 != null){
-            return false;
+        catch(error){
+            console.log(error);
         }
-        return true;
     }
 }
 var text = "Hôm nay là một ngày đẹp trời. Tôi thích đi dạo trên đường phố Hồ Chí Minh và ngắm nhìn những tòa nhà cao tầng, những công viên xanh mát và những người dân thân thiện. Tôi cũng thích thưởng thức những món ăn ngon của Việt Nam, như phở, bánh mì, bún bò Huế và cà phê sữa đá. Tôi cảm thấy hạnh phúc khi được sống ở đây.";
 var demo = new Method(text);
 var result = demo.HashInputData();
-result.forEach(element => {
+console.log(result);
+var result2 = demo.HashInputData2();
+result2.forEach(element => {
     console.log(element);
 })
