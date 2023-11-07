@@ -11,9 +11,11 @@ class Method{
         this.arr1 = new Array(); //chứa dữ liệu được băm từ file keyword
         this.arr2 = new Array(); 
         this.arr3 = new Array(); 
+        this.arr4 = new Array();
+        this.arr5 = new Array();
     }
-    //đọc file và băm vào bảng dữ liệu
-    ReadFileAndHashData(path = "keyword.txt") {
+    //đọc file và băm vào bảng dữ liệu text1
+    ReadFileAndHashData1(path = "text1.txt") {
         const fs = require("fs");
         try {
             if (fs.existsSync(path)) { 
@@ -31,10 +33,48 @@ class Method{
             console.log(error);
         }
     }
+    //đọc file và băm vào bảng dữ liệu text2
+    ReadFileAndHashData2(path = "text2.txt") {
+        const fs = require("fs");
+        try {
+            if (fs.existsSync(path)) { 
+                const data = fs.readFileSync(path, "utf8");
+                const words = data.split(",");
+    
+                words.forEach(element => {
+                    this.arr4.push(element.trim().toUpperCase()); // Loại bỏ khoảng trắng thừa
+                });
+            } else {
+                console.log("File not found: " + path);
+            }
+            return this.arr4;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    //đọc file và băm vào bảng dữ liệu text3
+    ReadFileAndHashData1(path = "text3.txt") {
+        const fs = require("fs");
+        try {
+            if (fs.existsSync(path)) { 
+                const data = fs.readFileSync(path, "utf8");
+                const words = data.split(",");
+    
+                words.forEach(element => {
+                    this.arr5.push(element.trim().toUpperCase()); // Loại bỏ khoảng trắng thừa
+                });
+            } else {
+                console.log("File not found: " + path);
+            }
+            return this.arr5;
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     //băm từng đoạn dữ liệu đầu vào
     HashInputData(){
-        
+         
         if(this.text != null){
             const miniText = this.text.split(/[.?]/);
             miniText.forEach(element => {
@@ -45,30 +85,32 @@ class Method{
         return "false";
     }
     //băm từng câu thành từng từ có nghĩa
-    HashInputData2(){
-        var vntk = require ("vntk");
-        var tokenize = vntk.wordTokenizer();
-        try{
-            this.arr2.forEach(element => {
-                const listWord = new Array();
-                var word = tokenize(tag.element);
-                word.forEach(element => {
-                    word.push(element);
-                });
-                this.arr3.push(listWord);
+    HashInputData2() {
+        var vntk = require("vntk");
+        var tokenizer = vntk.wordTokenizer();
+        this.arr2.forEach(element => {
+            var listWord = new Array();
+            var word = tokenizer.tag(element);
+            word.forEach(element => {
+                listWord.push(element);
             });
-            return this.arr3;
-        }
-        catch(error){
-            console.log(error);
-        }
+            this.arr3.push(listWord);
+        });
+        return this.arr3;
     }
+    //xử lý dữ liệu
 }
 var text = "Hôm nay là một ngày đẹp trời. Tôi thích đi dạo trên đường phố Hồ Chí Minh và ngắm nhìn những tòa nhà cao tầng, những công viên xanh mát và những người dân thân thiện. Tôi cũng thích thưởng thức những món ăn ngon của Việt Nam, như phở, bánh mì, bún bò Huế và cà phê sữa đá. Tôi cảm thấy hạnh phúc khi được sống ở đây.";
 var demo = new Method(text);
 var result = demo.HashInputData();
 console.log(result);
+
 var result2 = demo.HashInputData2();
+console.log("demo 1");
 result2.forEach(element => {
-    console.log(element);
-})
+    element.forEach(element2 => {
+        console.log(element2);
+    });
+});
+console.log("demo 2")
+console.log(result2[0][1]);
