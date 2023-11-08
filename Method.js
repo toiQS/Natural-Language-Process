@@ -52,7 +52,7 @@ class Method{
             console.log(error);
         }
     }
-    //đọc file và băm vào bảng dữ liệu text3
+    //đọc file và băm vào bảng dữ liệu text3 
     ReadFileAndHashData1(path = "text3.txt") {
         const fs = require("fs");
         try {
@@ -71,7 +71,6 @@ class Method{
             console.log(error);
         }
     }
-    
     //băm từng đoạn dữ liệu đầu vào
     HashInputData(){
          
