@@ -1,7 +1,6 @@
 var natural = require('natural');
 class NLP{
-    constructor(text){
-        this.text = text;
+    constructor(){
         this.nlp = new natural.BayesClassifier();
         this.arr1 = new Array();
         this.arr2 = new Array();
@@ -36,29 +35,46 @@ class NLP{
     }
     trainNegative(){
         this.arr1.forEach(element =>{
-            try{
-                this.nlp.addDocument(element, 'negative');
-            }
-            catch(err){
-                console.log(err);
-            }
+            this.nlp.addDocument(element, 'negative');
         })
+        try{
+            this.nlp.train();
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    trainNeutral(){
+        this.arr2.forEach(element =>{
+            this.nlp.addDocument(element, 'neutral');
+        })
+        try{
+            this.nlp.train();
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    trainPositive(){
+        this.arr3.forEach(element =>{
+            this.nlp.addDocument(element, 'positive');
+        })
+        try{
+            this.nlp.train();
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    classify(text){
+        return this.nlp.classify(text);
     }
 }
-var method = new NLP("");
-console.log("text1");
-var result = method.readFileNegative();
-result.forEach(element => {
-    console.log(element);
-})
-console.log("text2");
-var result2 = method.readFileNeutral();
-result2.forEach(element => {
-    console.log(element);
-})
-console.log("text3");
-var result3 = method.readFilePositive();
-result3.forEach(element => {
-    console.log(element);
-})
+var method = new NLP();
+method.readFileNegative();
+method.readFileNeutral();
+method.readFilePositive();
 method.trainNegative();
+method.trainNeutral();
+method.trainPositive();
+console.log(method.classify('Tôi rất quan tâm đến chính trị.'));
