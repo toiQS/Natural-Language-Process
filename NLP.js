@@ -1,6 +1,6 @@
-var natural = require('natural');
 class NLP{
     constructor(){
+        var natural = require('natural');
         this.nlp = new natural.BayesClassifier();
         this.arr1 = new Array();
         this.arr2 = new Array();
