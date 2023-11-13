@@ -69,12 +69,13 @@ class NLP{
     classify(text){
         return this.nlp.classify(text);
     }
+    Result(){
+        if(this.nlp.classifier(text) == "negative"){
+            return false;
+        }
+        else{
+            return true;
+        }   
+    }
 }
-var method = new NLP();
-method.readFileNegative();
-method.readFileNeutral();
-method.readFilePositive();
-method.trainNegative();
-method.trainNeutral();
-method.trainPositive();
-console.log(method.classify('Tôi rất quan tâm đến chính trị.'));
+export default NLP;

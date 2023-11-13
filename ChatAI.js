@@ -3,7 +3,7 @@ class ChatAI {
 
     constructor(options) {
         let defaults = {
-            api_key: 'f99746fd-d105-49b5-b1e8-cd53b5b2a21d',
+            api_key: 'c7e8efcf-0df1-4283-aa8a-10dea7ee2597',
             source: 'openai',
             model: 'gpt-3.5-turbo',
             conversations: [],
@@ -14,7 +14,7 @@ class ChatAI {
             max_tokens: 1000,
             version: '1.0.0',
             show_tokens: true,
-            available_models: ['gpt-4', 'gpt-4-0613', 'gpt-4-32k', 'gpt-4-32k-0613', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0613', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo-16k-0613']
+            available_models: ['gpt-3.5-turbo']
         };
         this.options = Object.assign(defaults, options);
         this.options.container = document.querySelector(this.options.container);
@@ -45,7 +45,7 @@ class ChatAI {
             cache: 'no-cache',
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + 'f99746fd-d105-49b5-b1e8-cd53b5b2a21d',
+                'Authorization': 'Bearer ' + 'c7e8efcf-0df1-4283-aa8a-10dea7ee2597',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -105,6 +105,7 @@ class ChatAI {
 
     async saveJsonToFile(jsonObject) {
         try {
+           
             let options = {
                 suggestedName: 'ai-conversations.json',
                 types: [{
@@ -113,7 +114,7 @@ class ChatAI {
                 }]
             };
             let handle = await window.showSaveFilePicker(options);
-            let writable = await handle.createWritable();
+            let writable = await handle.createWritable();            
             let jsonString = JSON.stringify(jsonObject, null, 2);
             await writable.write(jsonString);
             await writable.close();
@@ -219,7 +220,7 @@ class ChatAI {
 
     createNewConversation(title = null) {  
         title = title != null ? title : 'Conversation ' + (this.conversations.length + 1);
-        let index = this.conversations.push({ name: title, messages: [] });
+        let index = this.conversations.push({ name: title, messages: []});
         this.container.querySelectorAll('.conversations .list a').forEach(c => c.classList.remove('selected'));
         this.container.querySelector('.conversations .list').insertAdjacentHTML('beforeend', `<a class="conversation selected" href="#" data-id="${index - 1}" title="${title}"><i class="fa-regular fa-message"></i>${title}</a>`);
         this.clearWelcomeScreen();
@@ -271,7 +272,7 @@ class ChatAI {
             options.open({ source: element }); 
         }
         element.querySelectorAll('.modal-close').forEach(e => {
-            e.onclick = event => {
+            e.onclick = event => {  
                 event.preventDefault();
                 options.close({ source: element, button: e });
             };
@@ -335,7 +336,8 @@ class ChatAI {
     }
 
     saveSettings() {
-        localStorage.setItem('settings', JSON.stringify({ api_key: this.APIKey, max_tokens: this.maxTokens, source: this.source, model: this.model }));
+        localStorage.setItem('settings', JSON.stringify({ api_key: this.APIKey, max_tokens: this.maxTokens, 
+            source: this.source, model: this.model }));
     }
 
     _welcomePageTemplate() {
@@ -405,10 +407,19 @@ class ChatAI {
                 this.container.querySelector('.content').innerHTML = '';
                 this.container.querySelector('.conversations .list .conversation.selected').remove();
                 this.updateTitle();
+                
                 if (!this.container.querySelector('.content .welcome')) {
+                    this.container.querySelector('.content').innerHTML += `
+                    <form class="message-form">
+                        <input type="text" placeholder="Type a message..." required>
+                        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                `;
                     this.container.querySelector('.content').insertAdjacentHTML('afterbegin', this._welcomePageTemplate());
                 }
                 this._openDatabaseEventHandlers();
+                this._eventHandlers();
+                this.container.querySelector('.message-form input').focus();
             }
         };
     }
