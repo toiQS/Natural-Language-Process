@@ -78,4 +78,13 @@ class NLP{
         }   
     }
 }
-export default NLP;
+
+var nlp = new NLP();
+nlp.readFileNegative();
+nlp.readFileNeutral();
+nlp.readFilePositive();
+nlp.trainNegative();
+nlp.trainNeutral();
+nlp.trainPositive();
+var text = "tôi ghét chính tri";
+var result = nlp.classify(text);
