@@ -36,15 +36,13 @@ class ChatAI {
         this.container.querySelector('.message-form input').focus();
     }
 
-    //tìm kiếm cụm từ cụ thể
-
     getMessage() {
         this.container.querySelector('.content .messages').scrollTop = this.container.querySelector('.content .messages').scrollHeight;
         let messages = [{ role: 'system', content: 'You are a helpful assistant.' }, ...this.selectedConversation.messages].map(message => {
             return { role: message.role, content: message.content }
         });
+        // lấy dữ liệu từ hộp thoại
         var result = messages[messages.length - 1].content;
-        // console.log(result);
         var resultOfSentence = true;
         var Sentence = result.split(/[.!?]/);
         Sentence.forEach(element => {
