@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1">
+		<title>Chat AI</title>
+		<link href="style.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+        <div class="chat-ai"></div>
+        <!-- Script để nạp ChatAI và tạo một phiên bản ChatAI mới -->
+        <script src="ChatAI.js"></script>
+        <script>
+        // Create a new ChatAI instance
+        // Tạo một phiên bản mới của ChatAI và cấu hình tùy chọn
+        new ChatAI({
+            container: '.chat-ai', // Tạo một phiên bản mới của ChatAI và cấu hình tùy chọn
+            api_key: 'nv-YJhHvqYM5S6Qs8Yc7hRdN0V4x0SScG0KDbfMTE9jISCRTHx8', // Khóa API cho ứng dụng Chat AI
+            model: 'gpt-3.5-turbo' // Mô hình AI sẽ được sử dụng
+        });
+        </script>
+	</body>
+</html>
